@@ -5,7 +5,60 @@ import Link from 'umi/link';
 const { Header, Footer, Sider, Content } = Layout;
 // 引入子菜单组件
 const SubMenu = Menu.SubMenu;
+const defaultIcon = require('../assests/images/sakura.png');
+const openIcon = require('../assests/images/open.png');
+const closeIcon = require('../assests/images/close.png');
 class BasicLayout extends Component {
+
+    componentDidMount(){
+        document.title = '一个没有感情的标题';
+        this.changeFavicon(defaultIcon)
+        this.setTitle();
+    }
+    changeFavicon= (src) => {
+        var link = document.createElement('link'),
+            oldLink = document.getElementById('dynamic-favicon');
+        link.id = 'dynamic-favicon';
+        link.rel = 'shortcut icon';
+        link.href = src;
+        if (oldLink) {
+            document.head.removeChild(oldLink);
+        }
+        document.head.appendChild(link);
+    }
+    setTitle(){
+        var that = this;
+        var hidden, visibilityChange;
+        if (typeof document.hidden !== 'undefined') {
+            hidden = 'hidden';
+            visibilityChange = 'visibilitychange';
+        } else if (typeof document.msHidden !== 'undefined') {
+            hidden = 'msHidden';
+            visibilityChange = 'msvisibilitychange';
+        } else if (typeof document.webkitHidden !== 'undefined') {
+            hidden = 'webkitHidden';
+            visibilityChange = 'webkitvisibilitychange';
+        }
+        if (typeof document.addEventListener !== 'undefined'
+            && typeof document[hidden] !== 'undefined') {
+            var originTitle = document.title;
+            var timeoutID;
+            document.addEventListener(visibilityChange, function () {
+                if (document[hidden]) {
+                    window.clearTimeout(timeoutID);
+                    that.changeFavicon(closeIcon)
+                    document.title = '我自闭了';
+                } else {
+                    document.title = '我想开了';
+                    that.changeFavicon(openIcon)
+                    timeoutID = window.setTimeout(function () {
+                        document.title = originTitle;
+                        that.changeFavicon(defaultIcon)
+                    }, 2000);
+                }
+            });
+        }
+    }
     render() {
         return (
             <Layout>

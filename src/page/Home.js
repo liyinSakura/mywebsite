@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-
+import Time from '../page/demo/Time'
 export default () => {
     const style = {
         width: '400px',
@@ -9,7 +9,11 @@ export default () => {
     };
 
     return (
-        <div>一个没有感情的主页</div>
+        <div>
+            <div>一个没有感情的时间众筹主页</div>
+            <Time></Time>
+        </div>
+
     );
 
 }
