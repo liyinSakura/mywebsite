@@ -1,6 +1,8 @@
+
 import { Component } from 'react';
 import { Layout, Menu, Icon  } from 'antd';
 import Link from 'umi/link';
+import L2Dwidget from '../../node_modules/live2d-widget/src/index.js';
 // Header, Footer, Sider, Content组件在Layout组件模块下
 const { Header, Footer, Sider, Content } = Layout;
 // 引入子菜单组件
@@ -14,6 +16,14 @@ class BasicLayout extends Component {
         document.title = '一个没有感情的标题';
         this.changeFavicon(defaultIcon)
         this.setTitle();
+        this.setLive2D();
+    }
+    setLive2D(){
+        var currL2Dwidget = new L2Dwidget().init({
+            'modelJsonPath': "https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku/assets/shizuku.model.json",
+            'displayWidth': 150,
+            'mobileShow': true
+        });
     }
     changeFavicon= (src) => {
         var link = document.createElement('link'),
